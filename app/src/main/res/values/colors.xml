@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--    <color name="colorPrimary">#004d40</color>
+        <color name="colorPrimaryDark">#00251a</color>
+        <color name="colorAccent">#39796b</color>-->
+
+    <!--    <color name="colorPrimary">#483d8b</color>
+        <color name="colorPrimaryDark">#191970</color>
+        <color name="colorAccent">#6a5acd</color>-->
+    <color name="black_overlay">#66000000</color>
+    <color name="colorPrimary">#00478d</color>
+    <color name="colorPrimaryDark">#002952</color>
+    <color name="colorAccent">#3f9fff</color>
+
+    <color name="colorblack">#000</color>
+    <color name="colorwhite">#fff</color>
+    <color name="colordarker_gray">#999</color>
+    <color name="holo_orange_dark">@android:color/holo_orange_dark</color>
+
+    <color name="btnSignUp">#004d40</color>
+    <color name="btnSignIn">#00251a</color>
+
+    <color name="overlayBackground">#7f333639</color>
+    <color name="overlayActionBar">#0e0d0e</color>
+</resources>

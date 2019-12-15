@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "217137579969",
+    "firebase_url": "https://optical-test.firebaseio.com",
+    "project_id": "optical-test",
+    "storage_bucket": "optical-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:217137579969:android:2c60b5d105b3eeae949140",
+        "android_client_info": {
+          "package_name": "us.to.opti_grader.optigrader"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "217137579969-puap1ge635a9euqchl2b6euanf566m6j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "us.to.opti_grader.optigrader",
+            "certificate_hash": "ba986a6ad91948dc5b3d5a2cf0be80dbc49b019d"
+          }
+        },
+        {
+          "client_id": "217137579969-ojajoklgufbc7gftch82vhh5k4ufdrpt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAP3jHyu5vtUdd2uZh1VNo-IfK3Knl6gZ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "217137579969-ojajoklgufbc7gftch82vhh5k4ufdrpt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

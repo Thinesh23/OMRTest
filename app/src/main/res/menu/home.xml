@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Home">
+
+    <item
+        android:id="@+id/refresh"
+        android:icon="@drawable/ic_refresh_black_24dp"
+        android:iconTint="@android:color/white"
+        android:title="Refresh" />
+
+    <item
+        android:id="@+id/action_message"
+        android:orderInCategory="300"
+        android:title="Message"
+        android:icon="@drawable/ic_mail_black_24dp"
+        app:showAsAction="ifRoom" />
+</menu>
