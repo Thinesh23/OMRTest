@@ -107,6 +107,7 @@ public class LeaderboardExamList extends AppCompatActivity {
                                 @Override
                                 public void onClick(View view, int position, boolean isLongClick) {
                                     Intent scan = new Intent(LeaderboardExamList.this, ViewScore.class);
+                                    scan.putExtra("type", adapter.getRef(position).getKey());
                                     startActivity(scan);
                                 }
                             });
@@ -155,6 +156,7 @@ public class LeaderboardExamList extends AppCompatActivity {
                                 @Override
                                 public void onClick(View view, int position, boolean isLongClick) {
                                     Intent scan = new Intent(LeaderboardExamList.this, ViewScore.class);
+                                    scan.putExtra("type", adapter.getRef(position).getKey());
                                     startActivity(scan);
                                 }
                             });

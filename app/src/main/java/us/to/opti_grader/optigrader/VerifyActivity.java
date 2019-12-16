@@ -53,7 +53,8 @@ public class VerifyActivity extends AppCompatActivity implements RadioButton.OnC
 
     private Button Evaluate;
     String answernew = "";
-    private int score = 0;
+    private int score2 = 0;
+    private float percent = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -240,7 +241,7 @@ public class VerifyActivity extends AppCompatActivity implements RadioButton.OnC
 
 
                 correctAnswers = AnswersUtils.strtointAnswers(strCorrectAnswers[0]);
-                score = calculateScore(studentAnswers, correctAnswers);
+                score2 = calculateScore(studentAnswers, correctAnswers);
             }
         }.execute();
 
@@ -272,9 +273,9 @@ public class VerifyActivity extends AppCompatActivity implements RadioButton.OnC
         final TextView Score = (TextView) add_menu_layout.findViewById(R.id.studentScore);
         final MaterialEditText studentID = (MaterialEditText)add_menu_layout.findViewById(R.id.StudentID);
 
-
+        percent = ((score2 * 100.0f) / noOfAnswers);
         alertDialog.setView(add_menu_layout);
-        Score.setText(Integer.toString(score));
+        Score.setText(Float.toString(percent));
         alertDialog.setPositiveButton("Add", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -282,12 +283,12 @@ public class VerifyActivity extends AppCompatActivity implements RadioButton.OnC
                 if (studentID.getText().toString().trim().length() != 0) {
                     final ExamScore es = new ExamScore();
                     es.setExamType(Common.currentExam.getExamType());
-                    es.setScore(Integer.toString((score/noOfAnswers) * 100));
+                    es.setScore(Float.toString(percent));
                     es.setTotalQues(Common.currentExam.getTotalQues());
 
                     final StudentScore ss = new StudentScore();
                     ss.setId(studentID.getText().toString());
-                    ss.setScore(Integer.toString((score/noOfAnswers) * 100));
+                    ss.setScore(Float.toString(percent));
 
                     examList.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override

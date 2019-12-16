@@ -37,7 +37,7 @@ public class ViewScore extends AppCompatActivity {
 
     FirebaseRecyclerAdapter<StudentScore,LeaderBoardViewHolder> adapter;
 
-    String subjectId="";
+    String type="";
     String examTyperesult="";
     String subjectName="";
     String spinnerresult = "";
@@ -76,9 +76,8 @@ public class ViewScore extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 if(getIntent()!=null){
-                    subjectId = getIntent().getStringExtra(Common.INTENT_SUBJECT_ID);
+                    type = getIntent().getStringExtra("type");
                 }
-                if(!subjectId.isEmpty() && subjectId !=null){
                     //examList.child(Common.currentUser.getPhone()).child(examTyperesult).setValue(el)
                     Query query = examList.orderByChild("id").equalTo(true);
 
@@ -102,8 +101,7 @@ public class ViewScore extends AppCompatActivity {
                         }
                     };
 
-                    loadExamList(subjectId);
-                }
+                    loadExamList();
             }
         });
 
@@ -114,9 +112,8 @@ public class ViewScore extends AppCompatActivity {
                 mSwipeRefreshLayout.setRefreshing(true);
 
                 if(getIntent()!=null){
-                    subjectId = getIntent().getStringExtra(Common.INTENT_SUBJECT_ID);
+                    type = getIntent().getStringExtra(Common.INTENT_SUBJECT_ID);
                 }
-                if(!subjectId.isEmpty() && subjectId !=null){
                     Query query = examList.orderByChild("id").equalTo(true);
 
                     FirebaseRecyclerOptions<StudentScore> options = new FirebaseRecyclerOptions.Builder<StudentScore>()
@@ -139,8 +136,7 @@ public class ViewScore extends AppCompatActivity {
                         }
                     };
 
-                    loadExamList(subjectId);
-                }
+                    loadExamList();
             }
         });
 
@@ -150,7 +146,7 @@ public class ViewScore extends AppCompatActivity {
 
     }
 
-    private void loadExamList(String subjectId){
+    private void loadExamList(){
         adapter.startListening();
 
         recyclerView.setAdapter(adapter);
