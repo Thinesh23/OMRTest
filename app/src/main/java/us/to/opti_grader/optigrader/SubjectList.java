@@ -236,7 +236,7 @@ public class SubjectList extends AppCompatActivity {
                 viewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
-                        Intent testscan = new Intent(SubjectList.this, TestActivity.class);
+                        Intent testscan = new Intent(SubjectList.this, AddTestActivity.class);
                         testscan.putExtra("subjectId", searchAdapter.getRef(position).getKey());
                         Common.currentSubject = local;
                         startActivity(testscan);
@@ -294,7 +294,7 @@ public class SubjectList extends AppCompatActivity {
                 viewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
-                        Intent testscan = new Intent(SubjectList.this, TestActivity.class);
+                        Intent testscan = new Intent(SubjectList.this, AddTestActivity.class);
                         testscan.putExtra("subjectId", adapter.getRef(position).getKey());
                         Common.currentSubject = local;
                         startActivity(testscan);

@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LeaderboardExamList">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipe_layout"
+    android:background="@drawable/images8"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".TestActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <include
+        layout="@layout/content_exam"/>
+
+</android.support.design.widget.CoordinatorLayout>

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import us.to.opti_grader.optigrader.Model.ExamList;
 import us.to.opti_grader.optigrader.Model.Subject;
 import us.to.opti_grader.optigrader.Model.SubjectScore;
 import us.to.opti_grader.optigrader.Model.User;
@@ -25,6 +26,7 @@ public class Common {
     public static User currentUser;
     public static Subject currentSubject;
     public static SubjectScore currentSubjectScore;
+    public static ExamList currentExam;
     public static User currentCompany;
     public static Calendar currentDate = Calendar.getInstance();
     public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd_MM_yyyy");

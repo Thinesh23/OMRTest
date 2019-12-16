@@ -89,7 +89,8 @@
             android:theme="@style/FullscreenTheme" />
         <activity android:name=".StudentExamList" />
         <activity android:name=".VerifyActivity" />
-        <activity android:name=".LeaderboardExamList"></activity>
+        <activity android:name=".LeaderboardExamList" />
+        <activity android:name=".ViewScore"></activity>
     </application>
 
 </manifest>

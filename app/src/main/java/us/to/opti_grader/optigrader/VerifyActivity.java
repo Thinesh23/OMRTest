@@ -21,12 +21,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import us.to.opti_grader.optigrader.Common.Common;
+import us.to.opti_grader.optigrader.Model.ExamScore;
+import us.to.opti_grader.optigrader.Model.StudentScore;
 import us.to.opti_grader.optigrader.omrkey.AppDatabase;
 import us.to.opti_grader.optigrader.omrkey.OMRKey;
 import us.to.opti_grader.optigrader.utils.AnswersUtils;
@@ -37,6 +43,10 @@ public class VerifyActivity extends AppCompatActivity implements RadioButton.OnC
 
     private int[] correctAnswers;
     private int[] studentAnswers;
+
+    FirebaseDatabase database;
+    DatabaseReference examList;
+    DatabaseReference studentExamList;
 
     private int noOfAnswers, noOfChoices;
     private ArrayList<String> answersList = new ArrayList<>();
@@ -50,6 +60,10 @@ public class VerifyActivity extends AppCompatActivity implements RadioButton.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verify);
 
+        database = FirebaseDatabase.getInstance();
+        examList = database.getReference("Subject").child(Common.currentSubject.getSbid());
+        studentExamList = database.getReference("Score");
+
         Intent i = getIntent();
         if (i != null){
             noOfChoices = Integer.parseInt(i.getStringExtra("tempChoices"));
@@ -60,6 +74,7 @@ public class VerifyActivity extends AppCompatActivity implements RadioButton.OnC
 
         createAnswerKey(noOfAnswers, noOfChoices);
         loadStudentAnswers(noOfAnswers, answersList, noOfChoices);
+        storeCorrectAnswers(noOfAnswers);
 
         Evaluate = (Button) findViewById(R.id.btnEvaluate);
         Evaluate.setOnClickListener(new View.OnClickListener() {
@@ -188,24 +203,24 @@ public class VerifyActivity extends AppCompatActivity implements RadioButton.OnC
 
     }
 
-    public void storeCorrectAnswers(final int noOfAnswers){
+    public void storeCorrectAnswers(final int noOfAnswers) {
         studentAnswers = new int[noOfAnswers];
-        final String[] strCorrectAnswers = {""};
         int cnt = -1;
         CheckBox checkBox;
-        for(int i=0; i < noOfAnswers * noOfChoices; i++){
+        for (int i = 0; i < noOfAnswers * noOfChoices; i++) {
             checkBox = findViewById(i);
 
-            if(i%noOfChoices == 0)
+            if (i % noOfChoices == 0)
                 cnt++;
 
-            if(checkBox.isChecked()){
+            if (checkBox.isChecked()) {
                 studentAnswers[cnt] = (i % noOfChoices) + 1;
             }
         }
 
         final AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, "omr").build();
+        final String[] strCorrectAnswers = {""};
 
         new AsyncTask<Void, Void, Void>() {
             @Override
@@ -219,25 +234,25 @@ public class VerifyActivity extends AppCompatActivity implements RadioButton.OnC
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
 
-                int[] correctAnswer;
 
-                correctAnswer = AnswersUtils.strtointAnswers(strCorrectAnswers[0]);
 
-                score = calculateScore(studentAnswers, correctAnswer);
+                correctAnswers = AnswersUtils.strtointAnswers(strCorrectAnswers[0]);
+                score = calculateScore(studentAnswers, correctAnswers);
             }
         }.execute();
+
     }
 
-    public int calculateScore (int[] studentAnswers, int[] correctAnswers){
+    public int calculateScore (int[] studentAnswers, int[] correctAnswers1){
         int score = 0;
-        int answerPerQuestion;
 
         for (int i = 0; i < noOfAnswers; i++){
-            Log.i("OPENCV", "student answer = " + studentAnswers[i] + " correctAnswer "+correctAnswers[i]);
-            if (studentAnswers[i] == (correctAnswers[i]-1)){
+            if (studentAnswers[i] == (correctAnswers1[i]-1)){
+                Log.i("OPENCV", "student answer = " + studentAnswers[i] + " correctAnswer "+correctAnswers1[i]);
                 score++;
             }
         }
+        //score = score/noOfAnswers * 100;
         return score;
     }
 
@@ -253,16 +268,49 @@ public class VerifyActivity extends AppCompatActivity implements RadioButton.OnC
 
         final TextView Score = (TextView) add_menu_layout.findViewById(R.id.studentScore);
         final MaterialEditText studentID = (MaterialEditText)add_menu_layout.findViewById(R.id.StudentID);
-        storeCorrectAnswers(noOfAnswers);
-        //Set button
-        Score.setText(Integer.toString(score));
+
+
         alertDialog.setView(add_menu_layout);
+        Score.setText(Integer.toString(score));
         alertDialog.setPositiveButton("Add", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
                 if (studentID.getText().toString().trim().length() != 0) {
+                    final ExamScore es = new ExamScore();
+                    es.setExamType(Common.currentExam.getExamType());
+                    es.setScore(Integer.toString(score));
+                    es.setTotalQues(Common.currentExam.getTotalQues());
 
+                    final StudentScore ss = new StudentScore();
+                    ss.setId(studentID.getText().toString());
+                    ss.setScore(Integer.toString((score/noOfAnswers) * 100));
+
+                    examList.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            examList.child("examType").child(Common.currentExam.getExamType()).child("StudentScore")
+                                    .child(studentID.getText().toString()).setValue(ss);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                    studentExamList.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            studentExamList.child(studentID.getText().toString()).child(Common.currentSubject.getName())
+                                    .child("examType").child(Common.currentExam.getExamType()).setValue(es);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
                 } else {
                     Toast.makeText(VerifyActivity.this,"Please fill up StudentID",Toast.LENGTH_SHORT).show();
                 }

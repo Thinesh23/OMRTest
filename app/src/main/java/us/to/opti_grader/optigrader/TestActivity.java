@@ -73,7 +73,7 @@ public class TestActivity extends AppCompatActivity{
         setContentView(R.layout.activity_test);
 
         database = FirebaseDatabase.getInstance();
-        examList = database.getReference("Subject").child(Common.currentSubject.getSbid());
+        examList = database.getReference("Subject").child(Common.currentSubject.getSbid()).child(Common.currentUser.getPhone()).child("examType");
 
         fab = (FloatingActionButton)findViewById(R.id.fab);
 
@@ -90,7 +90,7 @@ public class TestActivity extends AppCompatActivity{
                 }
                 if(!subjectId.isEmpty() && subjectId !=null){
                     //examList.child(Common.currentUser.getPhone()).child(examTyperesult).setValue(el)
-                    Query query = examList.child(Common.currentUser.getPhone()).orderByChild("subjectId").equalTo(Common.currentSubject.getSbid());
+                    Query query = examList.orderByChild("subjectId").equalTo(Common.currentSubject.getSbid());
 
                     FirebaseRecyclerOptions<ExamList> options = new FirebaseRecyclerOptions.Builder<ExamList>()
                             .setQuery(query,ExamList.class)
@@ -144,7 +144,7 @@ public class TestActivity extends AppCompatActivity{
                     subjectId = getIntent().getStringExtra(Common.INTENT_SUBJECT_ID);
                 }
                 if(!subjectId.isEmpty() && subjectId !=null){
-                    Query query = examList.child(Common.currentUser.getPhone()).orderByChild("subjectId").equalTo(Common.currentSubject.getSbid());
+                    Query query = examList.orderByChild("subjectId").equalTo(Common.currentSubject.getSbid());
                     FirebaseRecyclerOptions<ExamList> options = new FirebaseRecyclerOptions.Builder<ExamList>()
                             .setQuery(query,ExamList.class)
                             .build();
@@ -188,6 +188,7 @@ public class TestActivity extends AppCompatActivity{
 
     private void ShowAddExamDialog() {
         Intent addtest = new Intent(TestActivity.this, AddTestActivity.class);
+        addtest.putExtra("subjectId", subjectId);
         startActivity(addtest);
  /*       AlertDialog.Builder alertDialog = new AlertDialog.Builder(TestActivity.this);
         alertDialog.setTitle("Add Exam");

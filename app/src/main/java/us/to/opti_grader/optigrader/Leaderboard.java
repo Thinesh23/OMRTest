@@ -221,7 +221,7 @@ public class Leaderboard extends AppCompatActivity {
                 viewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
-                        Intent testscan = new Intent(Leaderboard.this, TestActivity.class);
+                        Intent testscan = new Intent(Leaderboard.this, LeaderboardExamList.class);
                         testscan.putExtra("subjectId", searchAdapter.getRef(position).getKey());
                         Common.currentSubject = local;
                         startActivity(testscan);
@@ -279,7 +279,7 @@ public class Leaderboard extends AppCompatActivity {
                 viewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
-                        Intent testscan = new Intent(Leaderboard.this, TestActivity.class);
+                        Intent testscan = new Intent(Leaderboard.this, LeaderboardExamList.class);
                         testscan.putExtra("subjectId", adapter.getRef(position).getKey());
                         Common.currentSubject = local;
                         startActivity(testscan);
