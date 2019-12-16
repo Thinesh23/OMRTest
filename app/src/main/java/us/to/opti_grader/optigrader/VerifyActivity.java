@@ -74,12 +74,13 @@ public class VerifyActivity extends AppCompatActivity implements RadioButton.OnC
 
         createAnswerKey(noOfAnswers, noOfChoices);
         loadStudentAnswers(noOfAnswers, answersList, noOfChoices);
-        storeCorrectAnswers(noOfAnswers);
+
 
         Evaluate = (Button) findViewById(R.id.btnEvaluate);
         Evaluate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                storeCorrectAnswers(noOfAnswers);
                 addStudentDialog();
             }
         });
@@ -216,6 +217,8 @@ public class VerifyActivity extends AppCompatActivity implements RadioButton.OnC
             if (checkBox.isChecked()) {
                 studentAnswers[cnt] = (i % noOfChoices) + 1;
             }
+            Log.i("OPENCV", "student answer = " + studentAnswers);
+
         }
 
         final AppDatabase db = Room.databaseBuilder(getApplicationContext(),
@@ -247,10 +250,10 @@ public class VerifyActivity extends AppCompatActivity implements RadioButton.OnC
         int score = 0;
 
         for (int i = 0; i < noOfAnswers; i++){
-            if (studentAnswers[i] == (correctAnswers1[i]-1)){
-                Log.i("OPENCV", "student answer = " + studentAnswers[i] + " correctAnswer "+correctAnswers1[i]);
+            if (studentAnswers[i] == (correctAnswers1[i])){
                 score++;
             }
+            Log.i("OPENCV", "student answer = " + studentAnswers[i] + " correctAnswer "+correctAnswers1[i]);
         }
         //score = score/noOfAnswers * 100;
         return score;
@@ -279,7 +282,7 @@ public class VerifyActivity extends AppCompatActivity implements RadioButton.OnC
                 if (studentID.getText().toString().trim().length() != 0) {
                     final ExamScore es = new ExamScore();
                     es.setExamType(Common.currentExam.getExamType());
-                    es.setScore(Integer.toString(score));
+                    es.setScore(Integer.toString((score/noOfAnswers) * 100));
                     es.setTotalQues(Common.currentExam.getTotalQues());
 
                     final StudentScore ss = new StudentScore();

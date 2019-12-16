@@ -422,7 +422,7 @@ public class Home extends AppCompatActivity
         final MaterialEditText edtSecureCode = (MaterialEditText)layout_home.findViewById(R.id.edtSecureCode);
 
         final MaterialSpinner spinner = (MaterialSpinner) layout_home.findViewById(R.id.profile_spinner);
-        spinner.setItems("Student","Teacher");
+        spinner.setItems("Choose User Type","Student","Teacher");
 
         spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
             @Override
